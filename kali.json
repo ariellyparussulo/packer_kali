@@ -1,0 +1,63 @@
+{
+    "variables": {
+        "username": "",
+        "password": ""
+    },
+    "provisioners": [{
+        "type": "shell",
+        "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+        "script": "scripts/virtualbox-guest-additions.sh"
+
+    }],
+    "builders": [{
+        "type": "virtualbox-iso",
+        "boot_command": [
+            "<esc><wait>",
+            "/install/vmlinuz<wait>",
+            " auto<wait>",
+            " console-setup/ask_detect=false<wait>",
+            " console-setup/layoutcode=us<wait>",
+            " console-setup/modelcode=pc105<wait>",
+            " debconf/frontend=noninteractive<wait>",
+            " debian-installer=en_US<wait>",
+            " fb=false<wait>",
+            " initrd=/install/initrd.gz<wait>",
+            " kbd-chooser/method=us<wait>",
+            " netcfg/choose_interface=eth0<wait>",
+            " console-keymaps-at/keymap=us<wait>",
+            " keyboard-configuration/xkb-keymap=us<wait>",
+            " keyboard-configuration/layout=USA<wait>",
+            " keyboard-configuration/variant=USA<wait>",
+            " locale=en_US<wait>",
+            " netcfg/get_domain=vm<wait>",
+            " netcfg/get_hostname=kali<wait>",
+            " grub-installer/bootdev=/dev/sda<wait>",
+            " noapic<wait>",
+            " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+            " -- <wait>",
+            "<enter><wait>"
+        ],
+        "boot_wait": "10s",
+        "vm_name": "Kali Linux - Hacker Playbook 2",
+        "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+        "virtualbox_version_file": ".vbox_version",
+        "guest_os_type": "Debian_64",
+        "iso_urls": [
+            "http://cdimage.kali.org/kali-2019.4/kali-linux-2019.4-lxde-amd64.iso"
+        ],
+        "disk_size": 40960,
+        "vboxmanage": [
+            ["modifyvm", "{{.Name}}", "--memory", "4096"],
+            ["modifyvm", "{{.Name}}", "--cpus", "1"]
+        ],
+        "iso_checksum": "428ad70b12125b46f0ce304c2f89ecdcfa8ca45b",
+        "iso_checksum_type": "sha1",
+        "ssh_username": "kali",
+        "ssh_password": "kali",
+        "ssh_port": 22,
+        "ssh_wait_timeout": "10000s",
+        "shutdown_command": "sudo -S shutdown -P now",
+        "http_directory": "http",
+        "headless": true
+    }]
+  }
