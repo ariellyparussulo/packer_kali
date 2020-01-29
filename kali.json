@@ -4,7 +4,8 @@
         "execute_command": "echo 'kali' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
         "scripts": [
             "scripts/virtualbox-guest-additions.sh",
-            "scripts/sshd.sh"
+            "scripts/sshd.sh",
+            "scripts/tools.sh"
         ]
 
     }],
